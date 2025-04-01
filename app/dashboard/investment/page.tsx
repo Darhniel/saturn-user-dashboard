@@ -777,7 +777,7 @@ function RequestFormTwo({ data, onNext, setRequestData }: RequestFormProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // onNext(localData)
+        onNext(data)
     };
 
     return (
@@ -891,6 +891,7 @@ function RequestFormTwo({ data, onNext, setRequestData }: RequestFormProps) {
 
                     <button
                         className="mt-6 w-full py-3 rounded-xl bg-purple text-white font-semibold transition-colors"
+                        onClick={handleSubmit}
                     >
                         Proceed
                     </button>
@@ -900,20 +901,21 @@ function RequestFormTwo({ data, onNext, setRequestData }: RequestFormProps) {
     );
 }
 
-function RequestFormThree({ data, onNext, setRequestData }: RequestFormProps) {
+function RequestFormThree({ setRequestData }: RequestFormProps) {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-    const [isOtp, setIsOtp] = useState(false)
-    const [localData, setLocalData] = useState({
-        amount: data.amount || "",
-        investment: data.investment || "",
-        penalty: data.penalty || "",
-    });
-    const [errors, setErrors] = useState({
-        amountError: false,
-        investmentError: false,
-        penaltyError: false
-    });
+    // const [isOtp, setIsOtp] = useState(false)
+    const isOtp = false;
+    // const [localData, setLocalData] = useState({
+    //     amount: data.amount || "",
+    //     investment: data.investment || "",
+    //     penalty: data.penalty || "",
+    // });
+    // const [errors, setErrors] = useState({
+    //     amountError: false,
+    //     investmentError: false,
+    //     penaltyError: false
+    // });
 
     // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     //     const { name, value } = e.target;
@@ -962,18 +964,18 @@ function RequestFormThree({ data, onNext, setRequestData }: RequestFormProps) {
         }
     };
 
-    function complete() {
-        if (errors.amountError || errors.investmentError || errors.penaltyError || localData.amount === "" || localData.investment === "" || localData.penalty === "") {
-            return true;
-        }
+    // function complete() {
+    //     if (errors.amountError || errors.investmentError || errors.penaltyError || localData.amount === "" || localData.investment === "" || localData.penalty === "") {
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onNext(localData)
-    };
+    // const handleSubmit = (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     onNext(localData)
+    // };
 
     return (
         <div
@@ -1066,12 +1068,17 @@ function RequestFormThree({ data, onNext, setRequestData }: RequestFormProps) {
     )
 }
 
-function RequestFormFour({ data, onNext, setRequestData }: RequestFormProps) {
-    const [localData, setLocalData] = useState({
+function RequestFormFour({ data, setRequestData }: RequestFormProps) {
+    const localData = {
         amount: data.amount || "",
         investment: data.investment || "",
         penalty: data.penalty || "",
-    });
+    };
+    // const [localData, setLocalData] = useState({
+    //     amount: data.amount || "",
+    //     investment: data.investment || "",
+    //     penalty: data.penalty || "",
+    // });
 
     return (
         <div
@@ -1117,12 +1124,12 @@ function RequestFormFour({ data, onNext, setRequestData }: RequestFormProps) {
     )
 }
 
-function RequestFormFive({ data, onNext, setRequestData, setReqStep }: RequestFormProps) {
-    const [localData, setLocalData] = useState({
-        amount: data.amount || "",
-        investment: data.investment || "",
-        penalty: data.penalty || "",
-    });
+function RequestFormFive({ setRequestData, setReqStep }: RequestFormProps) {
+    // const [localData, setLocalData] = useState({
+    //     amount: data.amount || "",
+    //     investment: data.investment || "",
+    //     penalty: data.penalty || "",
+    // });
 
     return (
         <div
@@ -1518,7 +1525,7 @@ function InvestmentFormFour({ data, onNext, setInvestmentData }: InvestmentFormP
                     className="mt-12 w-full py-3 rounded-xl bg-purple text-white font-semibold transition-colors"
                     onClick={() => onNext(data)}
                 >
-                    I've done the Transfer
+                    I&apos;ve done the Transfer
                 </button>
             </div>
         </div>

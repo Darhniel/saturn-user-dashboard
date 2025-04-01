@@ -205,7 +205,7 @@ export function LoadingSpinner({ className = "h-20 w-20 animate text-white", str
     );
 }
 
-export function SettingsIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function SettingsIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +225,7 @@ export function SettingsIcon({ className = "h-20 w-20 animate text-white", href 
     );
 }
 
-export function OverviewIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function OverviewIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +245,7 @@ export function OverviewIcon({ className = "h-20 w-20 animate text-white", href 
     );
 }
 
-export function UsersIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function UsersIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +266,7 @@ export function UsersIcon({ className = "h-20 w-20 animate text-white", href = f
     );
 }
 
-export function PortfolioIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function PortfolioIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -286,7 +286,7 @@ export function PortfolioIcon({ className = "h-20 w-20 animate text-white", href
     );
 }
 
-export function TransactionsIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function TransactionsIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -307,7 +307,7 @@ export function TransactionsIcon({ className = "h-20 w-20 animate text-white", h
     );
 }
 
-export function KycIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function KycIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -328,7 +328,7 @@ export function KycIcon({ className = "h-20 w-20 animate text-white", href = fal
     );
 }
 
-export function MessagesIcon({ className = "h-20 w-20 animate text-white", href = false }: { className?: string; href?: boolean; }) {
+export function MessagesIcon({ href = false }: { href?: boolean; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -349,7 +349,7 @@ export function MessagesIcon({ className = "h-20 w-20 animate text-white", href 
     );
 }
 
-export function MoneyIcon({ className = "h-20 w-20 animate text-white", stroke = "#8627FF" }: { className?: string; stroke?: string; }) {
+export function MoneyIcon({ stroke = "#8627FF" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -370,7 +370,7 @@ export function MoneyIcon({ className = "h-20 w-20 animate text-white", stroke =
     );
 }
 
-export function PlusIcon({ className = "h-20 w-20 animate text-white", stroke = "#fff" }: { className?: string; stroke?: string; }) {
+export function PlusIcon({ stroke = "#fff" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -390,7 +390,7 @@ export function PlusIcon({ className = "h-20 w-20 animate text-white", stroke = 
     );
 }
 
-export function BellIcon({ className = "h-20 w-20 animate text-white", stroke = "#000" }: { className?: string; stroke?: string; }) {
+export function BellIcon({ stroke = "#000" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -410,7 +410,7 @@ export function BellIcon({ className = "h-20 w-20 animate text-white", stroke = 
     );
 }
 
-export function SearchIcon({ className = "h-20 w-20 animate text-white", stroke = "#414141" }: { className?: string; stroke?: string; }) {
+export function SearchIcon({ stroke = "#414141" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -430,7 +430,7 @@ export function SearchIcon({ className = "h-20 w-20 animate text-white", stroke 
     );
 }
 
-export function WalletFundIcon({ className = "h-20 w-20 animate text-white", stroke = "#8627FF", fill = "none" }: { className?: string; stroke?: string; fill?: string; }) {
+export function WalletFundIcon({ stroke = "#8627FF", fill = "none" }: { className?: string; stroke?: string; fill?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -450,7 +450,7 @@ export function WalletFundIcon({ className = "h-20 w-20 animate text-white", str
     );
 }
 
-export function CopyIcon({ className = "h-20 w-20 animate text-white", stroke = "#000" }: { className?: string; stroke?: string; }) {
+export function CopyIcon({ stroke = "#000" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -470,7 +470,7 @@ export function CopyIcon({ className = "h-20 w-20 animate text-white", stroke = 
     );
 }
 
-export function BankIcon({ className = "h-20 w-20 animate text-white", stroke = "#8627FF" }: { className?: string; stroke?: string; }) {
+export function BankIcon({ stroke = "#8627FF" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -494,7 +494,7 @@ export function BankIcon({ className = "h-20 w-20 animate text-white", stroke = 
     );
 }
 
-export function BitcoinIcon({ className = "h-20 w-20 animate text-white", stroke = "#ffffff" }: { className?: string; stroke?: string; }) {
+export function BitcoinIcon({ stroke = "#ffffff" }: { className?: string; stroke?: string; }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -513,7 +513,7 @@ export function BitcoinIcon({ className = "h-20 w-20 animate text-white", stroke
     );
 }
 
-export function TetherIcon({ className = "h-20 w-20 animate text-white", stroke = "#ffffff" }: { className?: string; stroke?: string; }) {
+export function TetherIcon({ }: { className?: string; stroke?: string; }) {
     return (
         <svg
             fill="#26A17B"
@@ -546,7 +546,7 @@ export function TetherIcon({ className = "h-20 w-20 animate text-white", stroke 
     );
 }
 
-export function MailIcon({ className = "h-20 w-20 animate text-white", stroke = "#ffffff" }: { className?: string; stroke?: string; }) {
+export function MailIcon({ }: { className?: string; stroke?: string; }) {
     return (
         <svg 
             xmlns="http://www.w3.org/2000/svg" 

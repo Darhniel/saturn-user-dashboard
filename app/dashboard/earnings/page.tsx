@@ -1039,7 +1039,7 @@ function WithdrawalFormThree({ data, onNext, setWithdrawalData }: WithdrawalForm
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // onNext(localData)
+        onNext(data)
     };
 
     return (
@@ -1158,7 +1158,7 @@ function WithdrawalFormThree({ data, onNext, setWithdrawalData }: WithdrawalForm
 
                     <button
                         className="mt-6 w-full py-3 rounded-xl bg-purple text-white font-semibold transition-colors"
-                        onClick={() => onNext(data)}
+                        onClick={() => handleSubmit}
                     >
                         Proceed
                     </button>

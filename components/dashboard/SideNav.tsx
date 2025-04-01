@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
-import { OverviewIcon, SettingsIcon, UsersIcon, PortfolioIcon, TransactionsIcon, KycIcon, MessagesIcon } from '../saturn/components/SVG';
+import { OverviewIcon, SettingsIcon, UsersIcon, PortfolioIcon, TransactionsIcon, MessagesIcon } from '../saturn/components/SVG';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function SideNav() {

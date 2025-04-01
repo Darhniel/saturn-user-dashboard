@@ -292,9 +292,11 @@ function ProfileTab() {
             {/* Avatar with camera overlay */}
             <div className="relative w-20 h-20">
               {/* Replace this with a real user avatar image or Next.js Image */}
-              <img
+              <Image
                 src="/placeholder-avatar.png"
                 alt="User Avatar"
+                width={80}
+                height={80}
                 className="w-20 h-20 object-cover rounded-full"
               />
               {/* Camera overlay icon */}
