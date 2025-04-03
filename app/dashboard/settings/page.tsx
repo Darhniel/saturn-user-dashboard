@@ -293,7 +293,7 @@ function ProfileTab() {
             <div className="relative w-20 h-20">
               {/* Replace this with a real user avatar image or Next.js Image */}
               <Image
-                src="/placeholder-avatar.png"
+                src="/images/dashboard/avatar.png"
                 alt="User Avatar"
                 width={80}
                 height={80}

@@ -29,7 +29,6 @@ export default function SideNav() {
         { name: 'Investments', href: '/investment' },
         { name: 'Earnings & Returns', href: '/earnings', },
         { name: 'Transactions', href: '/transactions' },
-        { name: 'Messages', href: '/messages' },
     ];
 
     const extraNavItems = [
@@ -121,9 +120,12 @@ export default function SideNav() {
                 </nav>
 
                 <div className="px-2 py-4 border-t border-gray-700">
-                    <button className="w-full text-left px-4 py-2 rounded hover:bg-gray-800">
+                    <Link 
+                        className="w-full text-left px-4 py-2 rounded hover:bg-gray-800"
+                        href={'www.syarpa.com'}
+                    >
                         Log Out
-                    </button>
+                    </Link>
                 </div>
             </div>
         </>

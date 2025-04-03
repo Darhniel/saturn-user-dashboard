@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronDownIcon, ErrorIcon, EyeIcon, EyeOffIcon, MoneyIcon, WalletFundIcon, CopyIcon, SuccessIcon, BankIcon, BitcoinIcon, TetherIcon, MailIcon } from "@/components/saturn/components/SVG";
 import { PlusIcon, CalendarIcon, ArrowUpRightIcon, MagnifyingGlassIcon, EllipsisVerticalIcon, BellIcon, ArrowDownTrayIcon } from "@heroicons/react/24/outline";
@@ -83,8 +83,37 @@ export default function DashboardPage() {
         };
     };
 
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Toggle the dropdown when the bell icon is clicked
+    const handleIconClick = (event: React.MouseEvent) => {
+        event.stopPropagation(); // Prevent the global click handler from closing immediately
+        setIsOpen(!isOpen);
+    };
+
+    // Close the dropdown when clicking anywhere outside it
+    useEffect(() => {
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        // Add listener
+        document.addEventListener('click', handleOutsideClick);
+
+        // Cleanup
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
     return (
-        <div className="p-6">
+        <div className="p-6 space-y-6">
             <header className="mb-4">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-semibold text-[#101010] hidden md:block">
@@ -99,11 +128,40 @@ export default function DashboardPage() {
                     />
 
                     <div className="hidden md:flex gap-3">
-                        <div className='bg-[#E7E7E7] rounded-full p-4'>
-                            <BellIcon
-                                width={24}
-                                height={24}
-                            />
+                        <div className="relative" ref={dropdownRef}>
+                            <div
+                                className='bg-[#E7E7E7] rounded-full p-4'
+                                onClick={handleIconClick}
+                            >
+                                <BellIcon
+                                    width={24}
+                                    height={24}
+                                />
+
+                                {isOpen && (
+                                    <div
+                                        className="absolute right-0 top-full mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-md"
+                                    >
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Your Portfolio is Up 8% This Month!</h4>
+                                            <p className="text-sm text-gray-500">45 mins ago</p>
+                                        </div>
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Deposit Successful</h4>
+                                            <p className="text-sm text-gray-500">45 mins ago</p>
+                                        </div>
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Account Created Successfully</h4>
+                                            <p className="text-sm text-gray-500">2 hrs ago</p>
+                                        </div>
+                                        <button
+                                            className="w-full p-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-colors rounded-b-lg"
+                                        >
+                                            See all Notifications
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="flex items-center ml-4 space-x-2">
@@ -169,7 +227,7 @@ export default function DashboardPage() {
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded shadow p-6 flex justify-center items-center flex-col border border-[#EBEBEB]">
+                <div className="bg-white rounded p-6 flex justify-center items-center flex-col border border-[#EBEBEB]">
                     <div className="flex flex-col items-center justify-between mb-2">
                         <div className="px-5 py-4 bg-white border border-gray-300 rounded flex gap-2 items-start mb-8">
                             <CalendarIcon
@@ -196,12 +254,12 @@ export default function DashboardPage() {
                     </div>
 
                     <span className="text-xl font-medium text-[#5D5C63]">
-                        ≈ ₦75,280,500
+                        {isAmountVisible ? "≈ ₦75,280,500" : "***********"}
                     </span>
                 </div>
 
                 {/* Right Card: Investment Value (chart placeholder) */}
-                <div className="bg-white rounded shadow p-6">
+                <div className="bg-white rounded p-6 border border-[#EBEBEB]">
                     <div className="flex items-center justify-between mb-4">
                         <p className="text-gray-500">Investment Value</p>
                         {/* Maybe a small dropdown or date filter for the chart */}
@@ -223,7 +281,7 @@ export default function DashboardPage() {
 
             {/* Small Stats Row */}
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
-                <div className="bg-white rounded shadow p-4 flex flex-col">
+                <div className="bg-white rounded border border-[#EBEBEB] p-4 flex flex-col">
                     <div className="flex justify-between items-center">
                         <p className="text-sm text-[#606060]">
                             Total Returns Earned
@@ -257,7 +315,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded shadow p-4 flex flex-col">
+                <div className="bg-white rounded border border-[#EBEBEB] p-4 flex flex-col">
                     <div className="flex justify-between items-center">
                         <p className="text-sm text-[#606060]">
                             Top Investment
@@ -291,7 +349,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded shadow p-4 flex flex-col">
+                <div className="bg-white rounded border border-[#EBEBEB] p-4 flex flex-col">
                     <div className="flex justify-between items-center">
                         <p className="text-sm text-[#606060]">
                             Next Payout Date
@@ -325,7 +383,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded shadow p-4 flex flex-col">
+                <div className="bg-white rounded border border-[#EBEBEB] p-4 flex flex-col">
                     <div className="flex justify-between items-center">
                         <p className="text-sm text-[#606060]">
                             Active Investments
@@ -622,11 +680,11 @@ function RequestFormOne({ data, onNext, setRequestData }: RequestFormProps) {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setRequestData(prev => ({ ...prev, isRequest: false }))}
         >
             <div
-                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-md mt-32 mb-4"
+                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-[22rem] mt-32 mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -784,11 +842,11 @@ function RequestFormTwo({ data, onNext, setRequestData }: RequestFormProps) {
         <>
 
             <div
-                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
                 onClick={() => setRequestData(prev => ({ ...prev, isRequest: false }))}
             >
                 <div
-                    className="bg-white rounded-2xl p-6 px-10 min-w-[22rem] mx-auto max-w-md mt-32 mb-4"
+                    className="bg-white rounded-2xl p-6 px-10 min-w-[22rem] mx-auto max-w-[22rem] mt-32 mb-4"
                     onClick={(e) => { e.stopPropagation() }}
                 >
                     <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -979,11 +1037,11 @@ function RequestFormThree({ setRequestData }: RequestFormProps) {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setRequestData(prev => ({ ...prev, isRequest: false }))}
         >
             <div
-                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-md"
+                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-[22rem]"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 {
@@ -1082,10 +1140,10 @@ function RequestFormFour({ data, setRequestData }: RequestFormProps) {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setRequestData(prev => ({ ...prev, isRequest: false }))}
         >
-            <div className="min-w-[22rem] mx-auto max-w-md bg-white rounded-2xl shadow-md p-6 text-center">
+            <div className="min-w-[22rem] mx-auto max-w-[22rem] bg-white rounded-2xl shadow-md p-6 text-center">
                 <div className="p-3 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
                     <WalletFundIcon />
                 </div>
@@ -1133,10 +1191,10 @@ function RequestFormFive({ setRequestData, setReqStep }: RequestFormProps) {
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setRequestData(prev => ({ ...prev, isRequest: false }))}
         >
-            <div className="min-w-[22rem] mx-auto max-w-md bg-white rounded-2xl shadow-md p-6 text-center">
+            <div className="min-w-[22rem] mx-auto max-w-[22rem] bg-white rounded-2xl shadow-md p-6 text-center">
                 <div className="p-3 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
                     <SuccessIcon />
                 </div>
@@ -1220,11 +1278,11 @@ function InvestmentFormOne({ data, onNext, setInvestmentData }: InvestmentFormPr
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setInvestmentData(prev => ({ ...prev, isFund: false }))}
         >
             <div
-                className="bg-white rounded-2xl p-6 w-full max-w-md "
+                className="bg-white rounded-2xl p-6 w-full max-w-[22rem] "
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1345,11 +1403,11 @@ function InvestmentFormTwo({ data, onNext, setInvestmentData }: InvestmentFormPr
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setInvestmentData(prev => ({ ...prev, isFund: false }))}
         >
             <div
-                className="bg-white rounded-2xl p-6 w-full max-w-md"
+                className="bg-white rounded-2xl p-6 w-full max-w-[22rem]"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1433,11 +1491,11 @@ function InvestmentFormThree({ data, onNext, setInvestmentData }: InvestmentForm
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setInvestmentData(prev => ({ ...prev, isFund: false }))}
         >
             <div
-                className="w-full max-w-md bg-white rounded-xl shadow-md p-6 mt-32 mb-4"
+                className="w-full max-w-[22rem] bg-white rounded-xl shadow-md p-6 mt-32 mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1489,11 +1547,11 @@ function InvestmentFormThree({ data, onNext, setInvestmentData }: InvestmentForm
 function InvestmentFormFour({ data, onNext, setInvestmentData }: InvestmentFormProps) {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setInvestmentData(prev => ({ ...prev, isFund: false }))}
         >
             <div
-                className="w-full max-w-md bg-white rounded-xl shadow-md p-6"
+                className="w-full max-w-[22rem] bg-white rounded-xl shadow-md p-6"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1535,7 +1593,7 @@ function InvestmentFormFour({ data, onNext, setInvestmentData }: InvestmentFormP
 function InvestmentFormFive({ setFundStep, setInvestmentData }: InvestmentFormProps) {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => { setInvestmentData(prev => ({ ...prev, amount: "", investment: "", isFund: false, payment: "" })); setFundStep(1) }}
         >
             <div

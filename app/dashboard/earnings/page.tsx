@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { EyeIcon, EyeOffIcon, CopyIcon, MoneyIcon, ErrorIcon, SuccessIcon, BankIcon, BitcoinIcon, TetherIcon } from "@/components/saturn/components/SVG";
 import { ArrowUpTrayIcon, ArrowDownTrayIcon, ArrowUpRightIcon, PlusIcon, ReceiptPercentIcon, MagnifyingGlassIcon, BellIcon, CalendarIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
@@ -100,8 +100,37 @@ export default function DashboardPage() {
         );
     }
 
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Toggle the dropdown when the bell icon is clicked
+    const handleIconClick = (event: React.MouseEvent) => {
+        event.stopPropagation(); // Prevent the global click handler from closing immediately
+        setIsOpen(!isOpen);
+    };
+
+    // Close the dropdown when clicking anywhere outside it
+    useEffect(() => {
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        // Add listener
+        document.addEventListener('click', handleOutsideClick);
+
+        // Cleanup
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
     return (
-        <div className="p-6">
+        <div className="p-6 space-y-6">
             <header className="mb-4">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-semibold text-[#101010] hidden md:block">
@@ -116,11 +145,40 @@ export default function DashboardPage() {
                     />
 
                     <div className="hidden md:flex gap-3">
-                        <div className='bg-[#E7E7E7] rounded-full p-4'>
-                            <BellIcon
-                                width={24}
-                                height={24}
-                            />
+                        <div className="relative" ref={dropdownRef}>
+                            <div
+                                className='bg-[#E7E7E7] rounded-full p-4'
+                                onClick={handleIconClick}
+                            >
+                                <BellIcon
+                                    width={24}
+                                    height={24}
+                                />
+
+                                {isOpen && (
+                                    <div
+                                        className="absolute right-0 top-full mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-md"
+                                    >
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Your Portfolio is Up 8% This Month!</h4>
+                                            <p className="text-sm text-gray-500">45 mins ago</p>
+                                        </div>
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Deposit Successful</h4>
+                                            <p className="text-sm text-gray-500">45 mins ago</p>
+                                        </div>
+                                        <div className="p-4 border-b border-gray-100">
+                                            <h4 className="font-semibold">Account Created Successfully</h4>
+                                            <p className="text-sm text-gray-500">2 hrs ago</p>
+                                        </div>
+                                        <button
+                                            className="w-full p-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-colors rounded-b-lg"
+                                        >
+                                            See all Notifications
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="flex items-center ml-4 space-x-2">
@@ -180,7 +238,7 @@ export default function DashboardPage() {
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded shadow p-6 flex justify-center items-center flex-col border border-[#EBEBEB]">
+                <div className="bg-white rounded p-6 flex justify-center items-center flex-col border border-[#EBEBEB]">
                     <div className="flex flex-col items-center justify-between mb-2">
                         <div className="px-5 py-4 bg-white border border-gray-300 rounded flex gap-2 items-start mb-8">
                             <CalendarIcon
@@ -193,7 +251,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                     <p className="text-[#8C8B90] text-xl font-semibold">
-                        Total Investment Value
+                        Total Earnings
                     </p>
                     <div className="flex gap-2 items-baseline mb-4">
                         <span className="text-2xl font-semibold">
@@ -207,12 +265,12 @@ export default function DashboardPage() {
                     </div>
 
                     <span className="text-xl font-medium text-[#5D5C63]">
-                        ≈ ₦75,280,500
+                        {isAmountVisible ? "≈ ₦75,280,500" : "***********"}
                     </span>
                 </div>
 
                 {/* Right Card: Investment Value (chart placeholder) */}
-                <div className="bg-white rounded shadow p-6">
+                <div className="bg-white rounded p-6 border border-[#EBEBEB]">
                     <div className="flex items-center justify-between mb-4">
                         <p className="text-gray-500">Transaction Chart</p>
                         {/* Maybe a small dropdown or date filter for the chart */}
@@ -251,7 +309,7 @@ export default function DashboardPage() {
                             <tr>
                                 <th className="p-3 text-gray-500 font-medium text-sm">Investment Type</th>
                                 <th className="p-3 text-gray-500 font-medium text-sm">Amt Invested</th>
-                                <th className="p-3 text-gray-500 font-medium text-sm">Total Earning</th>
+                                <th className="p-3 text-gray-500 font-medium text-sm">Total Earnings</th>
                                 <th className="p-3 text-gray-500 font-medium text-sm">Return Rate</th>
                                 <th className="p-3 text-gray-500 font-medium text-sm">Monthly Date & Time</th>
                                 <th className="p-3 text-gray-500 font-medium text-sm">Status</th>
@@ -468,11 +526,11 @@ export default function DashboardPage() {
             {
                 modal &&
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+                    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
                     onClick={() => setModal(false)}
                 >
                     <div
-                        className="min-w-[22rem] mx-auto max-w-md bg-white rounded-2xl shadow-md p-6 text-center"
+                        className="min-w-[22rem] mx-auto max-w-[22rem] bg-white rounded-2xl shadow-md p-6 text-center"
                         onClick={(e) => { e.stopPropagation() }}
                     >
                         {/* Icon */}
@@ -540,11 +598,11 @@ function ReinvestFormOne({ data, onNext, setReinvestData }: ReinvestFormProps) {
     };
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setReinvestData({ ...data, isReinvest: false })}
         >
             <div
-                className="min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-lg shadow"
+                className="min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-lg shadow"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -659,11 +717,11 @@ function ReinvestFormTwo({ data, onNext, setReinvestData }: ReinvestFormProps) {
     };
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setReinvestData({ ...data, isReinvest: false })}
         >
             <div
-                className="min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-lg shadow  mt-24 mb-4"
+                className="min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-lg shadow  mt-24 mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -750,11 +808,11 @@ function DetailRow({ label, value, icon }: { label: string, value: string, icon?
 function ReinvestFormThree({ data, onNext, setReinvestData }: ReinvestFormProps) {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setReinvestData({ ...data, isReinvest: false })}
         >
             <div
-                className="min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-lg shadow  mt-24 mb-4"
+                className="min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-lg shadow  mt-24 mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -804,11 +862,11 @@ function ReinvestFormThree({ data, onNext, setReinvestData }: ReinvestFormProps)
 function ReinvestFormFour({ data, setReinvestData }: ReinvestFormProps) {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setReinvestData({ ...data, isReinvest: false })}
         >
             <div
-                className="text-center border-2 min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-2xl shadow mb-4"
+                className="text-center border-2 min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-2xl shadow mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-50 mx-auto mb-6">
@@ -848,11 +906,11 @@ function WithdrawalFormOne({ data, onNext, setWithdrawalData }: WithdrawalFormPr
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setWithdrawalData({ ...data, isWithdrawal: false })}
         >
             <div
-                className="min-w-[22rem] mx-auto max-w-md p-4 bg-white rounded-lg shadow"
+                className="min-w-[22rem] mx-auto max-w-[22rem] p-4 bg-white rounded-lg shadow"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -975,11 +1033,11 @@ function WithdrawalFormTwo({ data, onNext, setWithdrawalData }: WithdrawalFormPr
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setWithdrawalData(prev => ({ ...prev, isWithdrawal: false }))}
         >
             <div
-                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-md "
+                className="bg-white rounded-2xl p-6 min-w-[22rem] mx-auto max-w-[22rem] "
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1046,11 +1104,11 @@ function WithdrawalFormThree({ data, onNext, setWithdrawalData }: WithdrawalForm
         <>
 
             <div
-                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
                 onClick={() => setWithdrawalData({ ...data, isWithdrawal: false })}
             >
                 <div
-                    className="bg-white rounded-2xl p-6 px-10 min-w-[22rem] mx-auto max-w-md mt-32 mb-4"
+                    className="bg-white rounded-2xl p-6 px-10 min-w-[22rem] mx-auto max-w-[22rem] mt-32 mb-4"
                     onClick={(e) => { e.stopPropagation() }}
                 >
                     <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
@@ -1176,10 +1234,10 @@ function WithdrawalFormFour({ data, onNext, setWithdrawalData }: WithdrawalFormP
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0"
             onClick={() => setWithdrawalData(prev => ({ ...prev, isWithdrawal: false }))}
         >
-            <div className="min-w-[22rem] mx-auto max-w-md bg-white rounded-2xl shadow-md p-6 text-center">
+            <div className="min-w-[22rem] mx-auto max-w-[22rem] bg-white rounded-2xl shadow-md p-6 text-center">
                 <div className="p-3 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
                     <MoneyIcon />
                 </div>
@@ -1225,11 +1283,11 @@ function WithdrawalFormFour({ data, onNext, setWithdrawalData }: WithdrawalFormP
 function WithdrawalFormFive({ data, setWithdrawalData, setWithdrawalStep }: WithdrawalFormProps) {
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
             onClick={() => setWithdrawalData({ ...data, isWithdrawal: false })}
         >
             <div
-                className="text-center border-2 min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-2xl shadow mb-4"
+                className="text-center border-2 min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-2xl shadow mb-4"
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-50 mx-auto mb-6">
@@ -1255,11 +1313,11 @@ function WithdrawalFormFive({ data, setWithdrawalData, setWithdrawalStep }: With
 }
 
 {/* <div
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll"
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 mt-0 overflow-y-scroll"
     onClick={() => setReinvestData({ ...data, isReinvest: false })}
 >
     <div
-        className="min-w-[22rem] mx-auto max-w-md p-6 bg-white rounded-lg shadow  mt-24 mb-4"
+        className="min-w-[22rem] mx-auto max-w-[22rem] p-6 bg-white rounded-lg shadow  mt-24 mb-4"
         onClick={(e) => { e.stopPropagation() }}
     >
         <div className="p-4 w-fit mx-auto my-4 bg-[#F3E9FF] rounded-full">
