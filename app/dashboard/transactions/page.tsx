@@ -363,7 +363,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Right Card: Investment Value (chart placeholder) */}
-                <div className="bg-white rounded shadow p-6">
+                <div className="bg-white rounded border border-[#EBEBEB] p-6">
                     <div className="flex items-center justify-between mb-4">
                         <p className="text-gray-500">Transaction Chart</p>
                         {/* Maybe a small dropdown or date filter for the chart */}

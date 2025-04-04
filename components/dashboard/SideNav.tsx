@@ -120,16 +120,16 @@ export default function SideNav() {
                 </nav>
 
                 <div className="px-2 py-4 border-t border-gray-700">
-                    <Link 
+                    <a 
                         className="w-full text-left px-4 py-2 rounded hover:bg-gray-800 flex gap-2 items-center "
-                        href={'www.syarpa.com'}
+                        href={'https://www.syarpa.com'}
                     >
                         <ArrowRightStartOnRectangleIcon 
                             width={24}
                             height={24}
                         />
                         Log Out
-                    </Link>
+                    </a>
                 </div>
             </div>
         </>
