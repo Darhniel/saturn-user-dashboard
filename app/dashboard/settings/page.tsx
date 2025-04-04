@@ -1,6 +1,6 @@
 "use client";
-
-import { useState } from "react";
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from "react";
 import Image from 'next/image';
 import { FaCheckCircle, FaRocket, FaEnvelope, FaLock, FaWallet, FaKey, FaExclamationTriangle, FaUserShield } from "react-icons/fa";
 
@@ -80,9 +80,17 @@ const notifications = [
 ];
 
 export default function SettingsPage() {
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') === 'notification' ? 'notification' : 'profile';
   // Track which tab is active: "profile", "password", "notification"
-  const [activeTab, setActiveTab] = useState<"profile" | "password" | "notification">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "password" | "notification">(initialTab);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (searchParams.get('tab') === 'notification') {
+      setActiveTab("notification");
+    }
+  }, [searchParams]);
 
   return (
     <div className="p-6 space-y-6">
@@ -466,7 +474,7 @@ function NotificationTab() {
             {/* Left Section: Icon + Text */}
             <div className="flex items-start space-x-4">
               {/* Icon */}
-              <div className={`p-3 rounded-full ${notification.unread ? "bg-purple-600 text-white" : "bg-gray-300 text-gray-600"}`}>
+              <div className={`p-3 rounded-full ${notification.unread ? "bg-purple text-white" : "bg-gray-300 text-gray-600"}`}>
                 {notification.icon}
               </div>
               {/* Title & Description */}

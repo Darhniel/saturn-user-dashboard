@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 import { OverviewIcon, SettingsIcon, UsersIcon, PortfolioIcon, TransactionsIcon, MessagesIcon } from '../saturn/components/SVG';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline'
 
 export default function SideNav() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -121,9 +121,13 @@ export default function SideNav() {
 
                 <div className="px-2 py-4 border-t border-gray-700">
                     <Link 
-                        className="w-full text-left px-4 py-2 rounded hover:bg-gray-800"
+                        className="w-full text-left px-4 py-2 rounded hover:bg-gray-800 flex gap-2 items-center "
                         href={'www.syarpa.com'}
                     >
+                        <ArrowRightStartOnRectangleIcon 
+                            width={24}
+                            height={24}
+                        />
                         Log Out
                     </Link>
                 </div>

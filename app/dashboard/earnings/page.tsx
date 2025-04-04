@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { EyeIcon, EyeOffIcon, CopyIcon, MoneyIcon, ErrorIcon, SuccessIcon, BankIcon, BitcoinIcon, TetherIcon } from "@/components/saturn/components/SVG";
+import { EyeIcon, EyeOffIcon, CopyIcon, MoneyIcon, ErrorIcon, SuccessIcon, BankIcon, BitcoinIcon, TetherIcon, SaturnIcon } from "@/components/saturn/components/SVG";
 import { ArrowUpTrayIcon, ArrowDownTrayIcon, ArrowUpRightIcon, PlusIcon, ReceiptPercentIcon, MagnifyingGlassIcon, BellIcon, CalendarIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation'
 
 type ReInvestDataType = {
     investmentPlan: string;
@@ -19,7 +21,35 @@ type WithdrawalDataType = {
     accountNumber: string
 }
 
+const notifications = [
+    {
+        title: "Your Portfolio is Up 8% This Month!",
+        description: "Your investments are performing well, with an 8% increase in the past 30 days.",
+        time: "45mins ago",
+        unread: true,
+        icon: <SaturnIcon />,
+        logo: true
+    },
+    {
+        title: "Deposit Successful",
+        description: "Your deposit of $50,000 has been successfully credited to your Saturn account.",
+        time: "45mins ago",
+        unread: true,
+        icon: <ArrowUpRightIcon width={22} height={22} />,
+        logo: false
+    },
+    {
+        title: "Account Created Successfully",
+        description: "Welcome to Saturn! Explore investment opportunities now.",
+        time: "2hrs ago",
+        unread: true,
+        icon: <SaturnIcon />,
+        logo: true
+    }
+]
+
 export default function DashboardPage() {
+    const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
     const [isAmountVisible, setIsAmountVisible] = useState(false);
     const [modal, setModal] = useState(false);
@@ -129,9 +159,45 @@ export default function DashboardPage() {
         };
     }, []);
 
+    const handleSeeAllNotifications = () => {
+        router.push('/dashboard/settings?tab=notification')
+    };
+
+    const [startDate, setStartDate] = useState(dayjs('2023-07-28'));
+    // Example: base amount. In real usage, you might calculate or fetch amounts based on date range.
+    const [amount, setAmount] = useState(50000);
+
+    // Derive end date by adding 1 month to the start date
+    const endDate = startDate.add(1, 'month');
+
+    // Helper function to format date (e.g., "28 July")
+    const formatDate = (dateObj: dayjs.Dayjs) => dateObj.format('D MMM');
+
+    // Convert amount to local currency (example: 1 USD = 1,505 NGN, adjust as needed)
+    const nairaAmount = amount * 1505;
+
+    const handlePrevMonth = () => {
+        const newStartDate = startDate.subtract(1, 'month');
+        setStartDate(newStartDate);
+
+        // For demonstration, we’ll just decrement the amount by 5,000 each time we go back a month.
+        // You can replace this logic with an actual calculation or data fetch.
+        setAmount((prev) => Math.max(prev - 5000, 0));
+    };
+
+    // Handler to go to next month
+    const handleNextMonth = () => {
+        const newStartDate = startDate.add(1, 'month');
+        setStartDate(newStartDate);
+
+        // For demonstration, we’ll just increment the amount by 5,000 each time we go forward a month.
+        // You can replace this logic with an actual calculation or data fetch.
+        setAmount((prev) => prev + 5000);
+    };
+
     return (
-        <div className="p-6 space-y-6">
-            <header className="mb-4">
+        <div className="p-6">
+            <header className="mb-6">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-semibold text-[#101010] hidden md:block">
                         Earnings & Returns
@@ -159,20 +225,32 @@ export default function DashboardPage() {
                                     <div
                                         className="absolute right-0 top-full mt-2 w-80 rounded-lg border border-gray-200 bg-white shadow-md"
                                     >
-                                        <div className="p-4 border-b border-gray-100">
-                                            <h4 className="font-semibold">Your Portfolio is Up 8% This Month!</h4>
-                                            <p className="text-sm text-gray-500">45 mins ago</p>
-                                        </div>
-                                        <div className="p-4 border-b border-gray-100">
-                                            <h4 className="font-semibold">Deposit Successful</h4>
-                                            <p className="text-sm text-gray-500">45 mins ago</p>
-                                        </div>
-                                        <div className="p-4 border-b border-gray-100">
-                                            <h4 className="font-semibold">Account Created Successfully</h4>
-                                            <p className="text-sm text-gray-500">2 hrs ago</p>
+                                        <div className="space-y-4">
+                                            {notifications.map((notification, index) => (
+                                                <div key={index} className="flex items-start justify-between p-4 rounded-lg hover:bg-gray-100 transition border-b border-gray-100">
+                                                    <div className="flex items-start space-x-4">
+                                                        <div className={`p-3 rounded-full ${notification.logo ? "bg-purple" : "bg-gray-300 text-gray-600"}`}>
+                                                            {notification.icon}
+                                                        </div>
+                                                        <div>
+                                                            <h3 className="font-semibold">{notification.title}</h3>
+                                                            <p className={`text-sm ${notification.unread ? "text-gray-700" : "text-gray-400"}`}>
+                                                                {notification.description}
+                                                            </p>
+                                                            <span className="text-sm text-gray-500">{notification.time}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        {
+                                                            notification.unread && <span className="w-2.5 h-2.5 bg-purple rounded-full block"></span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                         <button
                                             className="w-full p-4 text-white bg-indigo-600 hover:bg-indigo-700 transition-colors rounded-b-lg"
+                                            onClick={handleSeeAllNotifications}
                                         >
                                             See all Notifications
                                         </button>
@@ -237,25 +315,37 @@ export default function DashboardPage() {
                 </div>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <div className="bg-white rounded p-6 flex justify-center items-center flex-col border border-[#EBEBEB]">
                     <div className="flex flex-col items-center justify-between mb-2">
                         <div className="px-5 py-4 bg-white border border-gray-300 rounded flex gap-2 items-start mb-8">
+                            <button
+                                onClick={handlePrevMonth}
+                                className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-l"
+                            >
+                                &lt;
+                            </button>
                             <CalendarIcon
                                 width={20}
                                 height={20}
                             />
                             <span className="text-[#5D5C63] text-base">
-                                28 July - 28 Aug
+                                {formatDate(startDate)} - {formatDate(endDate)}
                             </span>
+                            <button
+                                onClick={handleNextMonth}
+                                className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-r"
+                            >
+                                &gt;
+                            </button>
                         </div>
                     </div>
                     <p className="text-[#8C8B90] text-xl font-semibold">
-                        Total Earnings
+                        Total Amount Invested
                     </p>
                     <div className="flex gap-2 items-baseline mb-4">
                         <span className="text-2xl font-semibold">
-                            {isAmountVisible ? "$50,000" : "*******"}
+                            {isAmountVisible ? `$${amount.toLocaleString()}` : "*******"}
                         </span>
                         <div onClick={() => setIsAmountVisible(!isAmountVisible)} className="cursor-pointer">
                             {
@@ -265,7 +355,7 @@ export default function DashboardPage() {
                     </div>
 
                     <span className="text-xl font-medium text-[#5D5C63]">
-                        {isAmountVisible ? "≈ ₦75,280,500" : "***********"}
+                        {isAmountVisible ? `≈ ₦${nairaAmount.toLocaleString()}` : "***********"}
                     </span>
                 </div>
 
@@ -290,7 +380,7 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            <div className="bg-white rounded shadow p-4">
+            <div className="bg-white rounded border border-[#EBEBEB] p-4 mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">Recent Earnings & Returns</h2>
                     <div className="flex items-center space-x-2 text-sm">

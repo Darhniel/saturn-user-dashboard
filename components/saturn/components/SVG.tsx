@@ -548,20 +548,41 @@ export function TetherIcon({ }: { className?: string; stroke?: string; }) {
 
 export function MailIcon({ }: { className?: string; stroke?: string; }) {
     return (
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="#8627FF" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#8627FF"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="lucide lucide-mail"
         >
-            <rect width="20" height="16" x="2" y="4" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            <rect width="20" height="16" x="2" y="4" rx="2" />
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+    );
+}
+
+export function SaturnIcon({ }: { className?: string; stroke?: string; }) {
+    return (
+        <svg 
+            width="22" 
+            height="22" 
+            viewBox="0 0 28 22" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path 
+                d="M16.6819 21.6168C13.9922 22.3373 11.1309 22.0349 8.6513 20.768C6.17168 19.5012 4.2499 17.3598 3.25757 14.7582L0.198465 15.5778L0 14.8364L12.8261 11.4014C14.2142 11.3443 15.5804 11.7616 16.6997 12.5845C17.819 13.4074 18.6248 14.587 18.9843 15.9289C18.6252 14.5874 18.7333 13.1635 19.2909 11.8916C19.8484 10.6196 20.8221 9.57517 22.052 8.93005L24.7294 8.21251C24.7876 8.46346 24.8382 8.71536 24.8783 8.96631C25.3191 11.7153 24.7252 14.5302 23.2113 16.8668C21.6974 19.2034 19.371 20.8957 16.6819 21.6168Z" 
+                fill="white" 
+            />
+            <path 
+                d="M27.6738 7.16279L22.1997 8.62936C20.7764 8.74011 19.3593 8.34937 18.1939 7.52488C17.0286 6.70038 16.1884 5.4941 15.8191 4.11515C16.1882 5.49387 16.0637 6.95825 15.467 8.25484C14.8704 9.55143 13.8392 10.5986 12.552 11.2152L2.94438 13.7915C2.88586 13.537 2.83624 13.2854 2.79552 13.0367C2.35346 10.2873 2.94678 7.47158 4.46071 5.1343C5.97464 2.79701 8.30159 1.10425 10.9914 0.383439C13.6813 -0.337369 16.5429 -0.034993 19.0227 1.23208C21.5025 2.49915 23.4243 4.64087 24.4163 7.24295L27.4753 6.4233L27.6738 7.16279Z" 
+                fill="white" 
+            />
         </svg>
     );
 }
