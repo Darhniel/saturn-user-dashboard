@@ -79,7 +79,7 @@ const notifications = [
   },
 ];
 
-export default function SettingsPage() {
+function SettingsPage() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') === 'notification' ? 'notification' : 'profile';
   const [activeTab, setActiveTab] = useState<"profile" | "password" | "notification">(initialTab);
@@ -92,165 +92,163 @@ export default function SettingsPage() {
   }, [searchParams]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="p-6 space-y-6">
-        {/* Top Bar */}
-        <header className=" space-y-4 sm:space-y-0">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-semibold text-[#101010]">
-              Settings
-            </h1>
-            <div className="flex gap-3">
-              <div className='bg-[#E7E7E7] rounded-full p-4'>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-bell"
-                >
-                  <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-                  <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-                </svg>
-              </div>
+    <div className="p-6 space-y-6">
+      {/* Top Bar */}
+      <header className=" space-y-4 sm:space-y-0">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-[#101010]">
+            Settings
+          </h1>
+          <div className="flex gap-3">
+            <div className='bg-[#E7E7E7] rounded-full p-4'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-bell"
+              >
+                <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+              </svg>
+            </div>
 
-              <div className="flex items-center ml-4 space-x-2">
-                <div className="h-10 w-10 bg-gray-400 rounded-full flex items-center justify-center">
-                  {/* Replace with <img> if you have a real avatar */}
-                  <div className="bg-[#CCC1F0] rounded-full">
-                    <Image
-                      src={"/images/dashboard/avatar.png"}
-                      width={40}
-                      height={40}
-                      alt=""
-                    />
-                  </div>
+            <div className="flex items-center ml-4 space-x-2">
+              <div className="h-10 w-10 bg-gray-400 rounded-full flex items-center justify-center">
+                {/* Replace with <img> if you have a real avatar */}
+                <div className="bg-[#CCC1F0] rounded-full">
+                  <Image
+                    src={"/images/dashboard/avatar.png"}
+                    width={40}
+                    height={40}
+                    alt=""
+                  />
                 </div>
-                <div>
-                  <p className="font-medium text-sm">Sandra Vivian</p>
-                  <p className="text-xs text-gray-500">devign@gmail.com</p>
-                </div>
+              </div>
+              <div>
+                <p className="font-medium text-sm">Sandra Vivian</p>
+                <p className="text-xs text-gray-500">devign@gmail.com</p>
               </div>
             </div>
           </div>
-
-          <div className="flex items-center justify-center md:justify-between">
-            <div className="relative hidden md:block">
-              {/* <FaSearch className="absolute left-3 top-3 text-gray-400" /> */}
-              <div className="w-6 h-6 absolute left-2 top-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#414141"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-search"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="m21 21-4.3-4.3" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="Search anything here"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-[#F7F9FC]"
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button className="px-6 py-2 bg-white rounded-xl border border-[#D6D6D6] text-base font-medium text-[#101010] flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-upload"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" x2="12" y1="3" y2="15" />
-                </svg>
-                Export
-              </button>
-
-              <button className="px-6 py-2 rounded-xl bg-white border border-[#D6D6D6] text-[#101010] text-base font-medium flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#000"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-message-square-text"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  <path d="M13 8H7" />
-                  <path d="M17 12H7" />
-                </svg>
-                Send Message
-              </button>
-            </div>
-          </div>
-        </header>
-
-        {/* Tabs: Profile, Password, Notification */}
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-8">
-            <button
-              onClick={() => setActiveTab("profile")}
-              className={`pb-3 -mb-px text-sm font-medium ${activeTab === "profile"
-                ? "border-b-2 border-purple text-purple"
-                : "text-gray-500 hover:text-gray-700"
-                }`}
-            >
-              Profile
-            </button>
-            <button
-              onClick={() => setActiveTab("password")}
-              className={`pb-3 -mb-px text-sm font-medium ${activeTab === "password"
-                ? "text-purple border-b-2 border-purple"
-                : "text-gray-500 hover:text-gray-700"
-                }`}
-            >
-              Password
-            </button>
-            <button
-              onClick={() => setActiveTab("notification")}
-              className={`pb-3 -mb-px text-sm font-medium ${activeTab === "notification"
-                ? "text-purple border-b-2 border-purple"
-                : "text-gray-500 hover:text-gray-700"
-                }`}
-            >
-              Notification
-            </button>
-          </nav>
         </div>
 
-        {/* Tab Content */}
-        {activeTab === "profile" && <ProfileTab />}
-        {activeTab === "password" && <PasswordTab />}
-        {activeTab === "notification" && <NotificationTab />}
+        <div className="flex items-center justify-center md:justify-between">
+          <div className="relative hidden md:block">
+            {/* <FaSearch className="absolute left-3 top-3 text-gray-400" /> */}
+            <div className="w-6 h-6 absolute left-2 top-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#414141"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-search"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search anything here"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-[#F7F9FC]"
+            />
+          </div>
+
+          <div className="flex gap-3">
+            <button className="px-6 py-2 bg-white rounded-xl border border-[#D6D6D6] text-base font-medium text-[#101010] flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-upload"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" x2="12" y1="3" y2="15" />
+              </svg>
+              Export
+            </button>
+
+            <button className="px-6 py-2 rounded-xl bg-white border border-[#D6D6D6] text-[#101010] text-base font-medium flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#000"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-message-square-text"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                <path d="M13 8H7" />
+                <path d="M17 12H7" />
+              </svg>
+              Send Message
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Tabs: Profile, Password, Notification */}
+      <div className="border-b border-gray-200">
+        <nav className="flex space-x-8">
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={`pb-3 -mb-px text-sm font-medium ${activeTab === "profile"
+              ? "border-b-2 border-purple text-purple"
+              : "text-gray-500 hover:text-gray-700"
+              }`}
+          >
+            Profile
+          </button>
+          <button
+            onClick={() => setActiveTab("password")}
+            className={`pb-3 -mb-px text-sm font-medium ${activeTab === "password"
+              ? "text-purple border-b-2 border-purple"
+              : "text-gray-500 hover:text-gray-700"
+              }`}
+          >
+            Password
+          </button>
+          <button
+            onClick={() => setActiveTab("notification")}
+            className={`pb-3 -mb-px text-sm font-medium ${activeTab === "notification"
+              ? "text-purple border-b-2 border-purple"
+              : "text-gray-500 hover:text-gray-700"
+              }`}
+          >
+            Notification
+          </button>
+        </nav>
       </div>
-    </Suspense>
+
+      {/* Tab Content */}
+      {activeTab === "profile" && <ProfileTab />}
+      {activeTab === "password" && <PasswordTab />}
+      {activeTab === "notification" && <NotificationTab />}
+    </div>
   );
 }
 
@@ -497,4 +495,13 @@ function NotificationTab() {
       </div>
     </div>
   );
+}
+
+
+export default function Settings() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SettingsPage />
+    </Suspense>
+  )
 }
